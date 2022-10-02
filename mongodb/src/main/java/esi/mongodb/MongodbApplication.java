@@ -44,41 +44,55 @@ public class MongodbApplication implements CommandLineRunner {
 	// ELIMINAR
 	
 	// profesorRepository.deleteAll();
-	profesorRepository.deleteById(3);
+	// profesorRepository.deleteById(3);
 	
 	// CONSULTAR
 	
 	Optional<Profesor> profesorId1 = profesorRepository.findById(1);
-	if (!profesorId1.isEmpty())
-		System.out.println(profesorId1.get());
+	if (!profesorId1.isEmpty()) {
+		//System.out.println(profesorId1.get());
+	}
 	
 	List<Profesor> profesores = profesorRepository.findAll();
 	for (Profesor profesor : profesores) {
-		System.out.println(profesor);
+		//System.out.println(profesor);
 	}
 	
 	List<Profesor> profesoresTC = profesorRepository.findByDedicacion("TC");
 	for (Profesor profesor : profesoresTC) {
-		System.out.println(profesor);
+		//System.out.println(profesor);
 	}	
 	
-	// OBJETOS ANIDADOS
+	// OBJETOS ANIDADOS EJEMPLO: Nombres de los departamentos que tengan como nombre de area x 
 	
 	Area a1 = new Area("Arquitectura y Tecnologia de Computadores");
 	Area a2 = new Area("Ciencia de la Computacion e Inteligencia Artificial");
 	Area a3 = new Area("Estadistica e Investigacion Operativa");
 	Area a4 = new Area("Lenguajes y Sistemas Informaticos");
 	
-	List<Area> areas = new ArrayList<>();
-	areas.add(a1);
-	areas.add(a2);
-	areas.add(a3);
-	areas.add(a4);
+	List<Area> areas1 = new ArrayList<>();
+	areas1.add(a1);
+	areas1.add(a2);
+	areas1.add(a3);
+	areas1.add(a4);
 	
-	Departamento d1 = new Departamento(1, "Informatica", areas);
-	System.out.println(d1.toString());
+	List<Area> areas2 = new ArrayList<>();
 	
+	areas2.add(a2);
+	areas2.add(a3);
+	areas2.add(a4);
+	
+	Departamento d1 = new Departamento(1, "Informatica", areas1);	
 	departamentoRepository.save(d1);
+	
+	Departamento d2 = new Departamento(2, "Organización de Empresas", areas2);
+	departamentoRepository.save(d2);
+		
+	List<Departamento> departamentos = departamentoRepository.findByAreasNombre("Arquitectura y Tecnologia de Computadores");
+	
+	for (Departamento departamento: departamentos) {
+		System.out.println(departamento.getNombre());
+	}
 	
   }
 }
